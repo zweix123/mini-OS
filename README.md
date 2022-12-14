@@ -39,25 +39,31 @@
 
       1. configure：
 
+         > 直接复制版
+         >
+         > ```bash
+         > ./configure --prefix=/home/zweix/bochs --enable-debugger --enable-disasm --enable-iodebug --enable-x86-debugger --with-x --with-x11
+         > ```
+      
          ```bash
          ./configure \ 
-             --prefix=~/bochs \       # 安装路径
-             --enable-debugger \      # 打开调试器
-             --enable-disasm \        # 支持反汇编
-             --enable-iodebug \       # 启用io接口调试器
-             --enable-x86-debugger \  # 支持x86调试器
-             --with-x \               # 使用x windows
-             --with-x11               # 使用x11图形用户接口
+             --prefix=/home/zweix/bochs \ # 安装路径
+             --enable-debugger \          # 打开调试器
+             --enable-disasm \            # 支持反汇编
+             --enable-iodebug \           # 启用io接口调试器
+             --enable-x86-debugger \      # 支持x86调试器
+             --with-x \                   # 使用x windows
+             --with-x11                   # 使用x11图形用户接口
          ```
 
          > 关于安装路径，我最开始设置在标准的`\usr\local\bochs`下，但是那样每次都要过去sudo，不方便
 
       2. make：
-
+      
          1. 打开`Makefile`：92行末尾添加`-lpthread`
-
+      
          2. 安装需要的软件
-
+      
             ```bash
             sudo apt-get install -y libgtk2.0-dev  # 安装gtk运行环境
             sudo apt-get install -y gnome-devel    # 安装gtk开发环境
@@ -68,29 +74,29 @@
          ```
 
       3. make install：
-
+      
          ```bash
          make install  # 可能需要sudo
          ```
-
+      
       > 如果这个过程哪里出错请重头来过，`make clean`似乎无效
 
-+ bochs的初步配置：进入软件目录：`cd ~/bochs`（对应上面的下载位置）
++ bochs的初步配置：进入软件目录：`cd /home/zweix/bochs`（对应上面的下载位置）
 
   + 配置文件`bochs\bochsrc.disk`（下面的中文不要出现在文件中）
 
     ```bash
     megs: 32  # 内存大小，单位MB
     
-    romimage: file=~/bochs/share/bochs/BIOS-bochs-latest  # 设置机器的BIOS
-    vgaromimage: file=~/bochs/share/bochs/VGABIOS-lgpl-latest  # 设置VGA BIOS
+    romimage: file=/home/zweix/bochs/share/bochs/BIOS-bochs-latest  # 设置机器的BIOS
+    vgaromimage: file=/home/zweix/bochs/share/bochs/VGABIOS-lgpl-latest  # 设置VGA BIOS
     
     boot: disk  # 从硬盘启动（从软盘启动的相关配置没有在这里）
     
     log: bochs.out  # 日志文件的输出
     
     mouse: enabled=0  # 关闭鼠标
-    keyboard_mapping: enabled=1, map=~/bochs/share/bochs/keymaps/x11-pc-us.map  # 打开键盘
+    keyboard_mapping: enabled=1, map=/home/zweix/bochs/share/bochs/keymaps/x11-pc-us.map  # 打开键盘
     
     ata0: enabled=1, ioaddr1=0x1f0, ioaddr2=0x3f0, irq=14  # 硬盘设置
     
@@ -100,7 +106,7 @@
   + 运行：
 
     ```bash
-    ~/bochs/bin/bochs
+    /home/zweix/bochs/bin/bochs
     [enther]
     bochsrc.disk
     [enther]
@@ -112,7 +118,7 @@
   + 创建启动盘
 
     ```bash
-    ~/bochs/bin/bximage
+    /home/zweix/bochs/bin/bximage
     hd
     flat
     60
@@ -123,38 +129,9 @@
 
     再次启动
 
-    > 指定配置文件启动：`~/bochs/bin/bochs -f bochsrc.disk`
+    > 指定配置文件启动：`/home/zweix/bochs/bin/bochs -f bochsrc.disk`
 
-    仍然报错
+    仍然报错（正常）
 
 # 第二章 编写MBR主引导记录
-
-
-
-
-
-
-
-+ 初步配置bochs：
-
-  ```bash
-  megs: 32
-  
-  romimage: file=/usr/local/bochs/share/bochs/BIOS-bochs-latest
-  vgaromimage: file=/usr/local/bochs/share/bochs/VGABIOS-lgpl-latest
-  
-  boot: disk
-  
-  log: bochs.out
-  
-  mouse: enabled=0
-  keyboard_mapping: enabled=1, map=/usr/local/bochs/share/bochs/keymaps/x11-pc-us.map
-  
-  ata0: enabled=1,ioaddr1=0x1f0,ioaddr2=0x3f0,irq=14
-  ```
-
-  将上面内容复制到`\usr\local\bochs\bochsrc.disk`中
-
-
-
 
